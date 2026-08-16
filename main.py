@@ -2,6 +2,7 @@ import os
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from analyzer import analyze_image_realism
+import uvicorn
 
 app = FastAPI(title="AI Asset & Realism Inspector API")
 
@@ -58,3 +59,6 @@ async def inspect_image(file: UploadFile = File(...)):
         # Clean up: delete the temporary file after analysis to save space
         if os.path.exists(file_path):
             os.remove(file_path)
+            if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
